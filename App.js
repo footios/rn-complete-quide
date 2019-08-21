@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, Button, View, FlatList } from 'react-native';
 
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
 	const [ courseGoals, setCourseGoals ] = useState([]);
+	const [ isAddMode, setIsAddMode ] = useState(false);
 
 	const addGoalHandler = (goalTitle) => {
+		// It will render the comp only once!
 		setCourseGoals((currentGoals) => [ ...currentGoals, { id: Math.random().toString(), value: goalTitle } ]);
-		// console.log(enteredGoal);
+		setIsAddMode(false)
 	};
 
 	const removeGoalHandler = (goalId) => {
@@ -20,15 +22,13 @@ export default function App() {
 
 	return (
 		<View style={styles.screen}>
-			<GoalInput onAddGoal={addGoalHandler} />
+			<Button onPress={() => setIsAddMode(true)} title="Add New Goal" />
+			<GoalInput visible={isAddMode} onHideModal={() => setIsAddMode(false)} onAddGoal={addGoalHandler} />
 			<FlatList
 				keyExtractor={(item, index) => item.id}
 				data={courseGoals}
 				renderItem={(itemdata) => (
-					<GoalItem 
-						id={itemdata.item.id} 
-						onDelete={removeGoalHandler} 
-						title={itemdata.item.value} />
+					<GoalItem id={itemdata.item.id} onDelete={removeGoalHandler} title={itemdata.item.value} />
 				)}
 			/>
 		</View>
