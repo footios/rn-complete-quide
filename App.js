@@ -9,6 +9,9 @@ export default function App() {
 	const [ isAddMode, setIsAddMode ] = useState(false);
 
 	const addGoalHandler = (goalTitle) => {
+		if (goalTitle.length === 0) {
+			return
+		}
 		// It will render the comp only once!
 		setCourseGoals((currentGoals) => [ ...currentGoals, { id: Math.random().toString(), value: goalTitle } ]);
 		setIsAddMode(false)
