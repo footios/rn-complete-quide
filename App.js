@@ -20,15 +20,25 @@ export default function App() {
 		});
 	};
 
+	const canselGoalAdditionHandler = () => {
+		setIsAddMode(false)
+	} 
+
 	return (
 		<View style={styles.screen}>
 			<Button onPress={() => setIsAddMode(true)} title="Add New Goal" />
-			<GoalInput visible={isAddMode} onHideModal={() => setIsAddMode(false)} onAddGoal={addGoalHandler} />
+			<GoalInput 
+				visible={isAddMode} 
+				onCancel={canselGoalAdditionHandler} 
+				onAddGoal={addGoalHandler} />
 			<FlatList
 				keyExtractor={(item, index) => item.id}
 				data={courseGoals}
 				renderItem={(itemdata) => (
-					<GoalItem id={itemdata.item.id} onDelete={removeGoalHandler} title={itemdata.item.value} />
+					<GoalItem 
+						id={itemdata.item.id} 
+						onDelete={removeGoalHandler} 
+						title={itemdata.item.value} />
 				)}
 			/>
 		</View>
@@ -37,6 +47,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
 	screen: {
-		padding: 50
+		padding: 80
 	}
 });
